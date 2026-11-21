@@ -1,0 +1,7 @@
+run,job_observations,job_failures,successful_jobs_per_s,p50_ms,p95_ms,cache_hit_pct
+unique-w1,141,0,4.57,2600,3000,0.0
+unique-w2,270,0,9.13,1300,1600,0.0
+unique-w4,479,0,16.65,700,970,0.0
+unique-w8,526,0,18.34,670,870,0.0
+repeated-cache-off,481,0,16.75,720,980,0.0
+repeated-cache-on,2954,0,103.02,120,160,100.0

@@ -1,0 +1,119 @@
+x-app: &app
+  restart: unless-stopped
+  dns_opt: ['timeout:1', 'attempts:1']
+  environment: &app-env
+    APP_DATABASE_URL: postgresql://papers:papers@db/papers
+    APP_BROKER_URL: amqp://papers:papers@rabbitmq:5672/%2F
+    APP_REDIS_URL: redis://redis:6379/0
+    APP_CACHE_ENABLED: ${APP_CACHE_ENABLED:-true}
+    APP_STORAGE_BACKEND: ${APP_STORAGE_BACKEND:-local}
+    APP_GCS_BUCKET: ${APP_GCS_BUCKET:-}
+    APP_MODEL_MODE: ${APP_MODEL_MODE:-minilm}
+    APP_MODEL_THREADS: ${APP_MODEL_THREADS:-1}
+  depends_on:
+    db:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+
+services:
+  api:
+    <<: *app
+    build:
+      context: .
+      target: api
+    ports:
+      - "${APP_HOST:-127.0.0.1}:${APP_PORT:-8000}:8000"
+    volumes:
+      - objects:/objects
+    healthcheck:
+      test: [CMD, python, -c, 'from urllib.request import urlopen; urlopen("http://127.0.0.1:8000/healthz", timeout=2).close()']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  dispatcher:
+    <<: *app
+    build:
+      context: .
+      target: api
+    command: [python, -m, research_similarity.broker]
+
+  worker:
+    <<: *app
+    environment:
+      <<: *app-env
+      APP_WORKER_DELAY_SECONDS: ${APP_WORKER_DELAY_SECONDS:-0}
+    build:
+      context: .
+      target: worker
+      args:
+        APP_INSTALL_MODEL: ${APP_INSTALL_MODEL:-true}
+    volumes:
+      - objects:/objects
+      - model_cache:/models
+
+  tools:
+    <<: *app
+    profiles: [tools]
+    restart: 'no'
+    build:
+      context: .
+      target: api
+    volumes:
+      - objects:/objects
+      - ./data:/app/data
+
+  test:
+    <<: *app
+    profiles: [tools]
+    restart: 'no'
+    build:
+      context: .
+      target: test
+      args:
+        APP_INSTALL_MODEL: "false"
+    environment:
+      APP_DATABASE_URL: postgresql://papers:papers@db/papers
+      APP_TEST_DATABASE_URL: postgresql://papers:papers@db/papers
+
+  db:
+    image: pgvector/pgvector:0.8.0-pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: papers
+      POSTGRES_USER: papers
+      POSTGRES_PASSWORD: papers
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./db/001_schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -h localhost -U papers -d papers']
+      interval: 3s
+      timeout: 3s
+      retries: 25
+
+  rabbitmq:
+    image: rabbitmq:4.1-alpine
+    hostname: rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: papers
+      RABBITMQ_DEFAULT_PASS: papers
+    volumes:
+      - rabbit:/var/lib/rabbitmq
+    healthcheck:
+      test: [CMD, rabbitmq-diagnostics, -q, check_port_connectivity]
+      interval: 4s
+      timeout: 10s
+      retries: 25
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+
+volumes:
+  postgres:
+  objects:
+  rabbit:
+  model_cache:

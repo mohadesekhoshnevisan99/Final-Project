@@ -1,0 +1,79 @@
+{
+  "papers": 25000,
+  "job_id": "675e350d-19c4-49a7-be21-fd0091adeca6",
+  "attempts": 1,
+  "cold_job_ms": 652.18,
+  "cache_hit_ms": 25.02,
+  "top_results": [
+    {
+      "url": "https://arxiv.org/abs/2211.10147",
+      "score": 0.7003230988401606,
+      "title": "FiE: Building a Global Probability Space by Leveraging Early Fusion in Encoder for Open-Domain Question Answering",
+      "authors": "Akhil Kedia, Mohd Abbas Zaidi, Haejun Lee",
+      "arxiv_id": "2211.10147"
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.12338",
+      "score": 0.69289333989779,
+      "title": "Open-domain Question Answering via Chain of Reasoning over Heterogeneous Knowledge",
+      "authors": "Kaixin Ma, Hao Cheng, Xiaodong Liu, Eric Nyberg, Jianfeng Gao",
+      "arxiv_id": "2210.12338"
+    },
+    {
+      "url": "https://arxiv.org/abs/2503.01606",
+      "score": 0.6758689267869734,
+      "title": "Beyond Prompting: An Efficient Embedding Framework for Open-Domain Question Answering",
+      "authors": "Zhanghao Hu, Hanqi Yan, Qinglin Zhu, Zhenyi Shen, Yulan He, Lin Gui",
+      "arxiv_id": "2503.01606"
+    },
+    {
+      "url": "https://arxiv.org/abs/2312.06648",
+      "score": 0.6663434903212249,
+      "title": "Dense X Retrieval: What Retrieval Granularity Should We Use?",
+      "authors": "Tong Chen, Hongwei Wang, Sihao Chen, Wenhao Yu, Kaixin Ma, Xinran Zhao, Hongming Zhang, Dong Yu",
+      "arxiv_id": "2312.06648"
+    },
+    {
+      "url": "https://arxiv.org/abs/2208.07670",
+      "score": 0.6629977627995344,
+      "title": "ConTextual Masked Auto-Encoder for Dense Passage Retrieval",
+      "authors": "Xing Wu, Guangyuan Ma, Meng Lin, Zijia Lin, Zhongyuan Wang, Songlin Hu",
+      "arxiv_id": "2208.07670"
+    },
+    {
+      "url": "https://arxiv.org/abs/2301.01064",
+      "score": 0.6606735001790237,
+      "title": "PIE-QG: Paraphrased Information Extraction for Unsupervised Question Generation from Small Corpora",
+      "authors": "Dinesh Nagumothu, Bahadorreza Ofoghi, Guangyan Huang, Peter W. Eklund",
+      "arxiv_id": "2301.01064"
+    },
+    {
+      "url": "https://arxiv.org/abs/2212.08841",
+      "score": 0.6601155209403656,
+      "title": "AugTriever: Unsupervised Dense Retrieval and Domain Adaptation by Scalable Data Augmentation",
+      "authors": "Rui Meng, Ye Liu, Semih Yavuz, Divyansh Agarwal, Lifu Tu, Ning Yu, Jianguo Zhang, Meghana Bhat, Yingbo Zhou",
+      "arxiv_id": "2212.08841"
+    },
+    {
+      "url": "https://arxiv.org/abs/2404.19316",
+      "score": 0.6564187034562341,
+      "title": "QLSC: A Query Latent Semantic Calibrator for Robust Extractive Question Answering",
+      "authors": "Sheng Ouyang, Jianzong Wang, Yong Zhang, Zhitao Li, Ziqi Liang, Xulong Zhang, Ning Cheng, Jing Xiao",
+      "arxiv_id": "2404.19316"
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.15048",
+      "score": 0.6540031455749621,
+      "title": "DyREx: Dynamic Query Representation for Extractive Question Answering",
+      "authors": "Urchade Zaratiana, Niama El Khbir, Dennis N\u00fa\u00f1ez, Pierre Holat, Nadi Tomeh, Thierry Charnois",
+      "arxiv_id": "2210.15048"
+    },
+    {
+      "url": "https://arxiv.org/abs/2201.01706",
+      "score": 0.6505012332795627,
+      "title": "Multi Document Reading Comprehension",
+      "authors": "Avi Chawla",
+      "arxiv_id": "2201.01706"
+    }
+  ]
+}

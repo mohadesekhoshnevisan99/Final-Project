@@ -1,0 +1,26 @@
+{
+  "started_utc": "2026-11-19T21:01:47.127454+00:00",
+  "engine": {
+    "cpus": 12,
+    "memory_bytes": 16320827392,
+    "os": "Ubuntu 24.04.5 LTS",
+    "architecture": "x86_64",
+    "version": "28.5.2"
+  },
+  "processor": "AMD Ryzen AI 7 445 w/ Radeon 840M",
+  "compose": "2.39.4",
+  "health": {
+    "status": "ok",
+    "papers": 25000,
+    "model": "minilm"
+  },
+  "snapshot_sha256": "a2b1049229ab37a247d65620983f477ba73b944a9cd2f98933f5c84b53c19788",
+  "model_cpu_threads_per_worker": 1,
+  "object_store": "local",
+  "users": 12,
+  "spawn_rate_per_s": 12,
+  "duration_s": 30,
+  "warmup_s": 8,
+  "cache_comparison_workers": 4,
+  "client": "Locust container on the same Compose host and network"
+}

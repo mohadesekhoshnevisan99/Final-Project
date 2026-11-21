@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper Similarity</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header><div class="frame bar"><a href="/" class="brand">Paper Similarity</a><a href="/docs" class="api">API reference</a></div></header>
+  <main class="frame">
+    <div class="intro">
+      <p id="corpus" class="corpus">arXiv research corpus</p>
+      <h1>Find related research</h1>
+      <p>Search arXiv abstracts by meaning. Enter an abstract or a short description to find up to ten related papers.</p>
+    </div>
+    <form id="query-form">
+      <div class="input-heading"><label for="query">Abstract or description</label><button type="button" id="example">Use an example</button></div>
+      <textarea id="query" required maxlength="12000" rows="5" placeholder="Describe the problem, method, or topic you want to explore."></textarea>
+      <div class="actions"><button type="submit" id="submit">Find papers <span aria-hidden="true">↗</span></button><span id="count">0 / 12,000</span></div>
+    </form>
+    <section class="search-output" aria-label="Search output">
+      <p id="status" role="status" aria-live="polite"></p>
+      <div id="result-panel" hidden>
+        <div class="result-heading"><h2>Related papers</h2><span>Cosine similarity</span></div>
+        <ol id="results"></ol>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

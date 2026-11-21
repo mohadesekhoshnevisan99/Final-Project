@@ -1,0 +1,23 @@
+[
+  {
+    "scenario": "worker",
+    "job_id": "1e82c16e-52c8-4976-b07e-3ad3b4c0ead8",
+    "attempts": 2,
+    "status": "completed",
+    "results": 10
+  },
+  {
+    "scenario": "rabbitmq",
+    "job_id": "f689b624-87d6-4de9-9b09-051aba6e0916",
+    "attempts": 1,
+    "status": "completed",
+    "results": 10
+  },
+  {
+    "scenario": "redis",
+    "job_id": "903634b6-f2d5-4c12-81c3-374f2f8e2c46",
+    "attempts": 1,
+    "status": "completed",
+    "results": 10
+  }
+]

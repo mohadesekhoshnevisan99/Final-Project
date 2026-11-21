@@ -1,0 +1,56 @@
+{
+  "tests": "All 16 tests passed in Docker Compose with PostgreSQL 16 and pgvector 0.8.0. The live ranking test matched the top 10 and cosine scores from 25 vectors against NumPy. Other tests covered input handling, corpus preparation, cache responses, and retry transitions.",
+  "integration": "The live service indexed 25,000 abstracts with MiniLM in 951 seconds with six workers. Its dense retrieval query returned 10 ranked results, led by FiE: Building a Global Probability Space by Leveraging Early Fusion in Encoder for Open-Domain Question Answering (cosine 0.700). The same query returned identical results from Redis. A killed worker recovered on attempt 2. A queued job survived a RabbitMQ restart, and a search completed with Redis stopped.",
+  "method": "12 closed-loop Locust users ran for 30 seconds per case after 8 seconds of warm-up. The client shared the Compose host. Latency includes polling at 250 ms intervals. Unique queries used 1, 2, 4, and 8 workers with cache off. Repeated queries compared cache off with a warm cache on 4 workers.",
+  "workload": "Eight workers increased the completion rate 4.0x over one, with a 10% gain from four to eight. The warm cache changed repeated-query p95 from 980 ms to 160 ms and served 100.0% of searches directly. Each configuration was measured once on the same host.",
+  "runs": [
+    [
+      "Unique / 1 worker",
+      "4.57",
+      "2600",
+      "3000",
+      "0",
+      "0.0%"
+    ],
+    [
+      "Unique / 2 workers",
+      "9.13",
+      "1300",
+      "1600",
+      "0",
+      "0.0%"
+    ],
+    [
+      "Unique / 4 workers",
+      "16.65",
+      "700",
+      "970",
+      "0",
+      "0.0%"
+    ],
+    [
+      "Unique / 8 workers",
+      "18.34",
+      "670",
+      "870",
+      "0",
+      "0.0%"
+    ],
+    [
+      "Repeated / cache off",
+      "16.75",
+      "720",
+      "980",
+      "0",
+      "0.0%"
+    ],
+    [
+      "Repeated / cache on",
+      "103.02",
+      "120",
+      "160",
+      "0",
+      "100.0%"
+    ]
+  ]
+}
