@@ -6,8 +6,6 @@ x-app: &app
     APP_BROKER_URL: amqp://papers:papers@rabbitmq:5672/%2F
     APP_REDIS_URL: redis://redis:6379/0
     APP_CACHE_ENABLED: ${APP_CACHE_ENABLED:-true}
-    APP_STORAGE_BACKEND: ${APP_STORAGE_BACKEND:-local}
-    APP_GCS_BUCKET: ${APP_GCS_BUCKET:-}
     APP_MODEL_MODE: ${APP_MODEL_MODE:-minilm}
     APP_MODEL_THREADS: ${APP_MODEL_THREADS:-1}
   depends_on:

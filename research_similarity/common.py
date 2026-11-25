@@ -2,7 +2,6 @@ import json
 import logging
 import os
 from dataclasses import dataclass
-from functools import cached_property
 from pathlib import Path
 from uuid import uuid4
 
@@ -19,9 +18,7 @@ class Settings:
     broker_url: str = os.environ.get("APP_BROKER_URL", "amqp://papers:papers@rabbitmq:5672/%2F")
     redis_url: str = os.environ.get("APP_REDIS_URL", "redis://redis:6379/0")
     cache_enabled: bool = os.environ.get("APP_CACHE_ENABLED", "true").lower() == "true"
-    storage_backend: str = os.environ.get("APP_STORAGE_BACKEND", "local")
     storage_dir: Path = Path(os.environ.get("APP_STORAGE_DIR", "/objects"))
-    gcs_bucket: str = os.environ.get("APP_GCS_BUCKET", "")
     model_mode: str = os.environ.get("APP_MODEL_MODE", "minilm")
     model_threads: int = int(os.environ.get("APP_MODEL_THREADS", "1"))
     worker_delay_seconds: float = float(os.environ.get("APP_WORKER_DELAY_SECONDS", "0"))
@@ -35,14 +32,6 @@ def connect_db():
 
 
 class ObjectStore:
-    @cached_property
-    def bucket(self):
-        from google.cloud import storage
-
-        if not settings.gcs_bucket:
-            raise ValueError("Set APP_GCS_BUCKET to use Google Cloud Storage")
-        return storage.Client().bucket(settings.gcs_bucket)
-
     def local_path(self, key: str) -> Path:
         root = settings.storage_dir.resolve()
         path = (root / key).resolve()
@@ -51,11 +40,6 @@ class ObjectStore:
         return path
 
     def put(self, key: str, value: str) -> None:
-        if settings.storage_backend == "gcs":
-            self.bucket.blob(key).upload_from_string(value.encode("utf-8"), timeout=10)
-            return
-        if settings.storage_backend != "local":
-            raise ValueError("APP_STORAGE_BACKEND must be local or gcs")
         path = self.local_path(key)
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_name(f"{path.name}.{uuid4().hex}.tmp")
@@ -66,10 +50,6 @@ class ObjectStore:
             temporary.unlink(missing_ok=True)
 
     def get(self, key: str) -> str:
-        if settings.storage_backend == "gcs":
-            return self.bucket.blob(key).download_as_bytes(timeout=10).decode("utf-8")
-        if settings.storage_backend != "local":
-            raise ValueError("APP_STORAGE_BACKEND must be local or gcs")
         return self.local_path(key).read_bytes().decode("utf-8")
 
 

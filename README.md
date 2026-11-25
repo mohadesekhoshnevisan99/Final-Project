@@ -11,7 +11,7 @@ Install Docker with the Compose v2 plugin and start the Docker engine. Run these
 
 ```sh
 docker compose -p similar-papers config --quiet
-docker compose -p similar-papers up -d --build --wait --scale worker=4
+docker compose -p similar-papers up -d --build --wait --scale worker=6
 docker compose -p similar-papers run --rm tools python -m research_similarity.corpus index data/corpus.jsonl.gz --batch-size 128 --timeout 3600
 docker compose -p similar-papers up -d --wait --scale worker=1
 ```
@@ -20,11 +20,11 @@ Open [localhost:8000](http://localhost:8000), choose **Use an example**, then se
 
 The API's database status, corpus count, and model mode are visible at [localhost:8000/healthz](http://localhost:8000/healthz). Expect 25,000 papers and the `minilm` model after indexing. A zero count means the corpus is initializing. For a first run that appears to stall, use `docker compose -p similar-papers ps` and `docker compose -p similar-papers logs --tail 100 worker dispatcher`. `docker compose -p similar-papers down` stops the project and keeps its data volumes.
 
-## Evaluation and deployment
+## Evaluation
 
-The final submission uses a local deployment with a shared Docker volume. Follow [the local evaluation guide](docs/LOCAL-EVALUATION.md) to reproduce the scaling, caching, and failure tests. Raw measurements are in `docs/evidence/`. [Optional deployment on Google Cloud](docs/DEPLOYMENT.md) describes the originally proposed infrastructure.
+The final submission uses a local deployment with a shared Docker volume. Follow [the local evaluation guide](docs/LOCAL-EVALUATION.md) to reproduce the scaling, caching, and failure tests. Raw measurements are in `docs/evidence/`.
 
-For a quick run, use `data/demo.jsonl`, which contains 15 arXiv records with project-written summaries. Use a fresh Compose project name when changing the snapshot or model. If another project is already running, set `APP_PORT` to an available port. The optional `smoke` model hashes words to 384-dimensional vectors for infrastructure checks. Use the default `minilm` model for the full semantic search and benchmark.
+For a quick run, use `data/demo.jsonl`, which contains 15 arXiv records with project-written summaries. Use a fresh Compose project name when changing the snapshot or model. If another project is already running, set `APP_PORT` to an available port. The `smoke` model hashes words to 384-dimensional vectors for infrastructure checks. Use the default `minilm` model for the full semantic search and benchmark.
 
 ## API
 
@@ -54,7 +54,7 @@ flowchart LR
     W -->|Read and cache result| C
 ```
 
-The API persists the text and accepts a durable PostgreSQL job. The dispatcher reads unpublished jobs and uses RabbitMQ publisher confirms. If the dispatcher loses its connection before marking a job published, it can publish the same job ID again. The worker serializes attempts with a PostgreSQL advisory lock and acknowledges the RabbitMQ delivery after the terminal database commit. Unacknowledged deliveries return to the queue after connection loss. Redis is optional for correctness and caches results for one hour.
+The API persists the text and accepts a durable PostgreSQL job. The dispatcher reads unpublished jobs and uses RabbitMQ publisher confirms. If the dispatcher loses its connection before marking a job published, it can publish the same job ID again. The worker serializes attempts with a PostgreSQL advisory lock and acknowledges the RabbitMQ delivery after the terminal database commit. Unacknowledged deliveries return to the queue after connection loss. Redis is not needed for correctness and caches results for one hour.
 
 ## Verification
 

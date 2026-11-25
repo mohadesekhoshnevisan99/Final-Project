@@ -27,4 +27,4 @@ To construct another corpus from the official arXiv metadata snapshot, download 
 python -m research_similarity.corpus prepare /path/to/arxiv-metadata-oai-snapshot.json --output data/corpus.jsonl --limit 25000
 ```
 
-The importer accepts JSONL or gzip-compressed JSONL. Use a fresh deployment when changing snapshots and retain the source release date and corpus digest with the experiment. [Deployment guide](../docs/DEPLOYMENT.md)
+The importer accepts JSONL or gzip-compressed JSONL. Use a fresh deployment when changing snapshots and retain the source release date and corpus digest with the experiment.

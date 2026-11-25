@@ -8,7 +8,7 @@ From the repository root, start the project, index the corpus, then build the te
 
 ```powershell
 docker compose -p similar-papers up -d --build --wait
-docker compose -p similar-papers run --rm tools python -m research_similarity.corpus index data/corpus.jsonl.gz --timeout 3600
+docker compose -p similar-papers run --rm tools python -m research_similarity.corpus index data/corpus.jsonl.gz --batch-size 128 --timeout 3600
 docker compose -p similar-papers build test
 docker compose -p similar-papers run --rm test
 python scripts/smoke.py

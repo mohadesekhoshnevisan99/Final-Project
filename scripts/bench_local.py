@@ -95,7 +95,7 @@ class Benchmark:
             "health": health,
             "snapshot_sha256": db_info,
             "model_cpu_threads_per_worker": int(config_env["APP_MODEL_THREADS"]),
-            "object_store": config_env["APP_STORAGE_BACKEND"],
+            "object_store": "local",
             "users": self.args.users,
             "spawn_rate_per_s": self.args.users,
             "duration_s": self.args.seconds,
